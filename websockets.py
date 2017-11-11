@@ -1,6 +1,6 @@
 import os
 from threading import Lock
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, session, url_for
 from flask_socketio import SocketIO, send, emit
 
 '''
@@ -8,6 +8,14 @@ from flask_socketio import SocketIO, send, emit
 On RPi
 ***************
 '''
+template_dir = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+template_dir = os.path.join(template_dir, 'greenhouse/build')
+static_dir = os.path.join(template_dir, 'static')
+app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
+socketio = SocketIO(app)
+thread = None
+thread_lock = Lock()
+
 if 'RPi' in os.environ:
     from Adafruit_BME280 import *
     import RPi.GPIO as GPIO
@@ -17,15 +25,12 @@ if 'RPi' in os.environ:
         GPIO.setup(i, GPIO.OUT)
 
     sensor = BME280(t_mode=BME280_OSAMPLE_8, p_mode=BME280_OSAMPLE_8, h_mode=BME280_OSAMPLE_8)
+    app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
-template_dir = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
-template_dir = os.path.join(template_dir, 'greenhouse/build')
-static_dir = os.path.join(template_dir, 'static')
-app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
-app.config['SECRET_KEY'] = 'mysecret'
-socketio = SocketIO(app)
-thread = None
-thread_lock = Lock()
+else:
+    app.config['SECRET_KEY'] = 'lZsY4zEG00QwQzDDKiMrPqsrUcYQhG5Z'
+
+
 status = {'manual': False,
           'co2': False,
           'lights': False,
