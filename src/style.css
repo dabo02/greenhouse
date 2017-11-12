@@ -138,23 +138,23 @@ body {
 }
 .container.active .card.alt .title {
   -webkit-transition-delay: .3s;
-          transition-delay: .3s;
+  transition-delay: .3s;
 }
 .container.active .card.alt .input-container {
   -webkit-transition-delay: .4s;
-          transition-delay: .4s;
+  transition-delay: .4s;
 }
 .container.active .card.alt .input-container:nth-child(2) {
   -webkit-transition-delay: .5s;
-          transition-delay: .5s;
+  transition-delay: .5s;
 }
 .container.active .card.alt .input-container:nth-child(3) {
   -webkit-transition-delay: .6s;
-          transition-delay: .6s;
+  transition-delay: .6s;
 }
 .container.active .card.alt .button-container {
   -webkit-transition-delay: .7s;
-          transition-delay: .7s;
+  transition-delay: .7s;
 }
 
 /* Card */
@@ -210,7 +210,7 @@ body {
 .card .input-container input:focus ~ label {
   color: #9d9d9d;
   -webkit-transform: translate(-12%, -50%) scale(0.75);
-          transform: translate(-12%, -50%) scale(0.75);
+  transform: translate(-12%, -50%) scale(0.75);
 }
 .card .input-container input:focus ~ .bar:before, .card .input-container input:focus ~ .bar:after {
   width: 50%;
@@ -218,7 +218,7 @@ body {
 .card .input-container input:valid ~ label {
   color: #9d9d9d;
   -webkit-transform: translate(-12%, -50%) scale(0.75);
-          transform: translate(-12%, -50%) scale(0.75);
+  transform: translate(-12%, -50%) scale(0.75);
 }
 .card .input-container label {
   position: absolute;
@@ -367,7 +367,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-transform: translate(0, 0);
-          transform: translate(0, 0);
+  transform: translate(0, 0);
 }
 .card.alt .title,
 .card.alt .input-container,
