@@ -1,7 +1,8 @@
 import os
 from threading import Lock
-from flask import Flask, render_template, session, url_for
+from flask import Flask, render_template, session, url_for, request, redirect
 from flask_socketio import SocketIO, send, emit
+from db import DBManager
 
 '''
 ***************
@@ -15,6 +16,9 @@ app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 socketio = SocketIO(app)
 thread = None
 thread_lock = Lock()
+users = DBManager('localhost', 27017)
+users.set_db('greenhouse')
+users.set_collection('users')
 
 if 'RPi' in os.environ:
     from Adafruit_BME280 import *
@@ -53,8 +57,39 @@ def monitor():
 
 @app.route('/')
 def dashboard():
-    return render_template('index.html')
+    if 'user' not in session:
+        return render_template('index.html')
 
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        id = request.form['username']
+        pwd = request.form['password']
+        user = users.get_single({'_id': id})
+        if user:
+            if pwd == user['password']:
+                session['user'] = id
+                return redirect(url_for('dashboard'))
+            else:
+                return render_template('login.html', error='incorrect password')
+        else:
+            return render_template('login.html',  error='{0} does not exist'.format(id))
+    return render_template('login.html')
+
+
+@app.route('/signup', methods=['POST'])
+def signup():
+    id = request.form['username']
+    pwd = request.form['password']
+    key = request.form['key']
+    if key == os.environ.get('SECRET_KEY'):
+        doc = {'_id': id, 'password': pwd}
+        user = users.save_single(doc)
+        if user:
+            return redirect(url_for('login'))
+    else:
+        return render_template('login.html', error='Incorrect key please register again')
 
 @socketio.on('message', namespace='/greenhouse')
 def handle_message(message):
