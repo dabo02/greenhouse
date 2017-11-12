@@ -7,7 +7,7 @@ export default class WebsocketHandler extends React.Component {
 
     constructor(props) {
         super(props);
-
+        this.logout = 'logout/';
         this.state = {
             temperature: 0,
             carbonDioxide: 0,
@@ -192,6 +192,13 @@ export default class WebsocketHandler extends React.Component {
                                     checked={this.state.manual}
                                     onChange={this.manualOverride.bind(this)}
                                 />
+                            </div>
+                            <div className="row justify-content-center">
+                                <div className="col">
+                                    <form action='/logout' method='get'>
+                                        <button type='submit' className='btn btn-success'><a href={this.logout}>Logout</a></button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>

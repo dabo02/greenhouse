@@ -29,7 +29,8 @@ if 'RPi' in os.environ:
         GPIO.setup(i, GPIO.OUT)
 
     sensor = BME280(t_mode=BME280_OSAMPLE_8, p_mode=BME280_OSAMPLE_8, h_mode=BME280_OSAMPLE_8)
-    app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
+    secret = os.environ['SECRET_KEY']
+    app.config['SECRET_KEY'] = secret
 
 else:
     app.config['SECRET_KEY'] = 'lZsY4zEG00QwQzDDKiMrPqsrUcYQhG5Z'
@@ -79,12 +80,17 @@ def login():
     return render_template('login.html')
 
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
 @app.route('/signup', methods=['POST'])
 def signup():
     id = request.form['username']
     pwd = request.form['password']
     key = request.form['key']
-    if key == os.environ.get('SECRET_KEY'):
+    if key == secret:
         doc = {'_id': id, 'password': pwd}
         user = users.save_single(doc)
         if user:
