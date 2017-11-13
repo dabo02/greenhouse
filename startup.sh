@@ -10,6 +10,9 @@
 # Short-Description: Run GrowBot as Daemon
 # Description:       This script starts the server for the GrowBotV1
 ### END INIT INFO
+
+#TODO implement export variables here
+
 mongod --fork --logpath /var/log/mongod.log
 sleep 3
 python3 /home/pi/greenhouse/websockets.py &

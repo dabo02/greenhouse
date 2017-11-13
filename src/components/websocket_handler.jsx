@@ -278,7 +278,7 @@ export default class WebsocketHandler extends React.Component {
                     <form>
                         <div className={this.state.flower  !== this.state.veg ? 'container' : 'hidden'}>
                             <div className='row form-group justify-content-center control-display'>
-                                <h4 className='col-12'>{this.state.flower  &&  !this.state.veg ? '12/12 Flower Cycle' : this.state.flower === this.state.veg ? '' : 'Veg Cycle'}</h4>
+                                <h4 className='col-12'>{this.state.flower  &&  !this.state.veg ? '12/12 Flower Cycle' : this.state.flower === this.state.veg ? '' : '18/6 Veg Cycle'}</h4>
                                 <label className="col-2 col-form-label">Sunrise</label>
                                 <div className="col-10">
                                     <input className="form-control"

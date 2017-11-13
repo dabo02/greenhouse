@@ -65,9 +65,21 @@ state = {
 
 def monitor():
     global state
-    state['temperature'] = sensor.read_temperature()
-    state['rh'] = sensor.read_humidity()
-    return ''
+    while True:
+        # TODO Monitor logic goes here
+        if not state['manual']:
+            if state['veg']:
+                state['lights'] = True
+                #TODO implement socketio.emit() to setState here
+                # TODO implement 18 hr logic here
+            elif state['flower']:
+                a = 1
+                state['lights'] = True
+
+
+        # state['temperature'] = sensor.read_temperature()
+        # state['rh'] = sensor.read_humidity()
+        return ''
 
 
 @app.route('/')
