@@ -20,6 +20,8 @@ users = DBManager('localhost', 27017)
 users.set_db('greenhouse')
 users.set_collection('users')
 
+secret = None
+
 if 'RPi' in os.environ:
     from Adafruit_BME280 import *
     import RPi.GPIO as GPIO
@@ -33,7 +35,8 @@ if 'RPi' in os.environ:
     app.config['SECRET_KEY'] = secret
 
 else:
-    app.config['SECRET_KEY'] = 'lZsY4zEG00QwQzDDKiMrPqsrUcYQhG5Z'
+    secret = 'lZsY4zEG00QwQzDDKiMrPqsrUcYQhG5Z'
+    app.config['SECRET_KEY'] = secret
 
 
 
