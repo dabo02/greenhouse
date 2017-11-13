@@ -11,8 +11,8 @@
 # Description:       This script starts the server for the GrowBotV1
 ### END INIT INFO
 
-export RPi = True
-export SECRET_KEY = secret_key
+export RPi="True"
+export SECRET_KEY="861839F738AE2"
 
 mongod --fork --logpath /var/log/mongod.log
 sleep 3
