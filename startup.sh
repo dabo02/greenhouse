@@ -12,7 +12,7 @@
 ### END INIT INFO
 
 export RPi = True
- export SECRET_KEY = secret_key
+export SECRET_KEY = secret_key
 
 mongod --fork --logpath /var/log/mongod.log
 sleep 3
