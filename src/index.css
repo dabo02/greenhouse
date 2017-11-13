@@ -9,9 +9,17 @@ body {
 }
 
 .temperature-data {
-  font-size: 50px;
+  font-size: 45px;
 }
 
 .control-display {
   margin-top: 30px;
+}
+
+.hidden {
+  display: none;
+}
+
+.check-when-hidden {
+  margin-top: 20px;
 }

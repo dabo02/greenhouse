@@ -7,7 +7,8 @@ export default class WebsocketHandler extends React.Component {
 
     constructor(props) {
         super(props);
-        this.logout = 'logout/';
+        this.ReceivedStarted = false;
+        this.started = false;
         this.state = {
             temperature: 0,
             carbonDioxide: 0,
@@ -18,8 +19,33 @@ export default class WebsocketHandler extends React.Component {
             exhaust: false,
             co2: false,
             humidity: false,
-            manual: false
+            manual: false,
+            settings: false,
+            flower: false,
+            veg: false,
+            sunrise: null,
+            tempDayMin: 0,
+            tempDayMax: 0,
+            tempNightMin: 0,
+            tempNightMax: 0,
+            humidityDayMin: 0,
+            humidityDayMax: 0,
+            humidityNightMin: 0,
+            humidityNightMax: 0,
+            Co2DayMin: 0,
+            Co2DayMax: 0
         };
+        this.lightController = this.lightController.bind(this);
+        this.exhaustController = this.exhaustController.bind(this);
+        this.co2Controller = this.co2Controller.bind(this);
+        this.humidityController = this.humidityController.bind(this);
+        this.settingsManager = this.settingsManager.bind(this);
+        this.handleCheckBoxChange = this.handleCheckBoxChange.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.manualOverride = this.manualOverride.bind(this);
+        this.saveSettings = this.saveSettings.bind(this);
+        this.showMessage = this.showMessage.bind(this);
+        
     }
 
     componentDidMount() {
@@ -32,6 +58,7 @@ export default class WebsocketHandler extends React.Component {
                 case 'Connected':
                     this.setState({connected: true});
                     self.ws.emit('getCurrentState', {});
+                    self.ws.emit('start', {});
                     break;
 
                 case 'Disconnected':
@@ -75,15 +102,51 @@ export default class WebsocketHandler extends React.Component {
         this.setState({manual: !this.state.manual})
     }
 
+    settingsManager(event){
+        this.setState({settings: !this.state.settings})
+    }
+
+    handleCheckBoxChange(event) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+        const name2 = name === 'flower' ? 'veg' : 'flower';
+
+        this.setState({
+            [name]: value,
+            [name2]: !value
+        });
+    }
+
+    handleInputChange(event) {
+        const target = event.target;
+        const value =  target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        });
+    }
+
+    saveSettings(event) {
+        this.ws.emit('setState', {data: this.state});
+        this.setState({settings: !this.state.settings})
+
+    };
+
+    showMessage(msg, type) {
+
+    }
+
     render() {
-        if (this.state.connected) {
+        if (this.state.connected && !this.state.settings) {
             return (
                 <div>
                     <div className='container'>
                         <div className='row temperature-data'>
                             <div className='col'>
                                 <strong><i className="fa fa-thermometer-full"
-                                           aria-hidden="true"/> {this.state.temperature}&deg;</strong>
+                                           aria-hidden="true"/> {this.state.temperature}&deg;F</strong>
                             </div>
                             <div className='col'>
                                 <div className='row data-display'>
@@ -121,7 +184,7 @@ export default class WebsocketHandler extends React.Component {
                                 <ToggleSwitch
                                     disabled = {this.state.manual}
                                     checked={this.state.lights}
-                                    onChange={this.lightController.bind(this)}
+                                    onChange={this.lightController}
                                 />
                             </div>
                             <div className='col'>
@@ -138,7 +201,7 @@ export default class WebsocketHandler extends React.Component {
                                 <ToggleSwitch
                                     disabled = {this.state.manual}
                                     checked={this.state.exhaust}
-                                    onChange={this.exhaustController.bind(this)}
+                                    onChange={this.exhaustController}
                                 />
                             </div>
                             <div className='col'>
@@ -155,7 +218,7 @@ export default class WebsocketHandler extends React.Component {
                                 <ToggleSwitch
                                     disabled = {this.state.manual}
                                     checked={this.state.co2}
-                                    onChange={this.co2Controller.bind(this)}
+                                    onChange={this.co2Controller}
                                 />
                             </div>
                             <div className='col'>
@@ -166,13 +229,13 @@ export default class WebsocketHandler extends React.Component {
                     <div className='container'>
                         <div className='row justify-content-center control-display'>
                             <div className='col'>
-                                <strong>De-Humidifier</strong>
+                                <strong>De-Hum</strong>
                             </div>
                             <div className='col'>
                                 <ToggleSwitch
                                     disabled = {this.state.manual}
                                     checked={this.state.humidity}
-                                    onChange={this.humidityController.bind(this)}
+                                    onChange={this.humidityController}
                                 />
                             </div>
                             <div className='col'>
@@ -190,20 +253,186 @@ export default class WebsocketHandler extends React.Component {
                             <div className='col'>
                                 <ToggleSwitch
                                     checked={this.state.manual}
-                                    onChange={this.manualOverride.bind(this)}
+                                    onChange={this.manualOverride}
                                 />
                             </div>
-                            <div className="row justify-content-center">
-                                <div className="col">
-                                    <form action='/logout' method='get'>
-                                        <button type='submit' className='btn btn-success'><a href={this.logout}>Logout</a></button>
-                                    </form>
+                            <div className='container'>
+                                <div className="row justify-content-center control-display">
+                                    <div className="col">
+                                        <form action='/logout' method='get'>
+                                            <button type='submit' className='btn btn-success'>Logout</button>
+                                        </form>
+                                    </div>
+                                    <div className="col">
+                                        <button onClick={this.settingsManager} className='btn btn-success'>Settings</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>);
-        } else {
+        } else if(this.state.settings){
+            return(
+            <div>
+                <div className='container'>
+                    <form>
+                        <div className={this.state.flower  !== this.state.veg ? 'container' : 'hidden'}>
+                            <div className='row form-group justify-content-center control-display'>
+                                <h4 className='col-12'>{this.state.flower  &&  !this.state.veg ? '12/12 Flower Cycle' : this.state.flower === this.state.veg ? '' : 'Veg Cycle'}</h4>
+                                <label className="col-2 col-form-label">Sunrise</label>
+                                <div className="col-10">
+                                    <input className="form-control"
+                                           type="time"
+                                           name='sunrise'
+                                           value={this.state.sunrise}
+                                           onChange={this.handleInputChange}/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={this.state.flower !== this.state.veg ? 'form-group row' : 'form-group row check-when-hidden'}>
+                            <div className='col'>
+                                <div className='form-check'>
+                                    <label className='form-check-label'>
+                                        <input
+                                            className="form-check-input"
+                                            name="flower"
+                                            type="checkbox"
+                                            checked={this.state.flower}
+                                            onChange={this.handleCheckBoxChange} />
+                                        flower
+                                    </label>
+                                </div>
+                            </div>
+                            <div className='col'>
+                                <div className='form-check'>
+                                    <label className='form-check-label'>
+                                        <input
+                                            className="form-check-input"
+                                            name="veg"
+                                            type="checkbox"
+                                            checked={this.state.veg}
+                                            onChange={this.handleCheckBoxChange} />
+                                        veg
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div>
+                            <div className="form-group row">
+                                <label className='col-12 col-form-label'>Daytime Settings</label>
+                                <label className="col col-form-label">Temperature:</label>
+                                <div className="col">
+                                    <input className="form-control"
+                                           type="number"
+                                           placeholder='min'
+                                           name='tempDayMin'
+                                           value={this.state.tempDayMin}
+                                           onChange={this.handleInputChange}/>
+                                </div>
+                                <div className="col">
+                                    <input className="form-control"
+                                           type="number"
+                                           placeholder='max'
+                                           name='tempDayMax'
+                                           value={this.state.tempDayMax}
+                                           onChange={this.handleInputChange}/>
+                                </div>
+                            </div>
+                            <div className="form-group row">
+                                <label className="col col-form-label">Co2 ppm:</label>
+                                <div className="col">
+                                    <input className="form-control"
+                                           type="number"
+                                           placeholder='min'
+                                           name='Co2DayMin'
+                                           value={this.state.Co2DayMin}
+                                           onChange={this.handleInputChange}/>
+                                </div>
+                                <div className="col">
+                                    <input className="form-control"
+                                           type="number"
+                                           placeholder='max'
+                                           name='Co2DayMax'
+                                           value={this.state.Co2DayMax}
+                                           onChange={this.handleInputChange}/>
+                                </div>
+                            </div>
+                            <div className="form-group row">
+                                <label className="col col-form-label">Humidity:</label>
+                                <div className="col">
+                                    <input className="form-control"
+                                           type="number"
+                                           placeholder='min'
+                                           name='humidityDayMin'
+                                           value={this.state.humidityDayMin}
+                                           onChange={this.handleInputChange}/>
+                                </div>
+                                <div className="col">
+                                    <input className="form-control"
+                                           type="number"
+                                           placeholder='max'
+                                           name='humidityDayMax'
+                                           value={this.state.humidityDayMax}
+                                           onChange={this.handleInputChange}/>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div className="form-group row">
+                                <label className='col-12 col-form-label'>Nighttime Settings</label>
+                                <label className="col col-form-label">Temperature:</label>
+                                <div className="col">
+                                    <input className="form-control"
+                                           type="number"
+                                           placeholder='min'
+                                           name='tempNightMin'
+                                           value={this.state.tempNightMin}
+                                           onChange={this.handleInputChange}/>
+                                </div>
+                                <div className="col">
+                                    <input className="form-control"
+                                           type="number"
+                                           placeholder='max'
+                                           name='tempNightMax'
+                                           value={this.state.tempNightMax}
+                                           onChange={this.handleInputChange}/>
+                                </div>
+                            </div>
+                            <div className="form-group row">
+                                <label className="col col-form-label">Humidity:</label>
+                                <div className="col">
+                                    <input className="form-control"
+                                           type="number"
+                                           placeholder='min'
+                                           name='humidityNightMin'
+                                           value={this.state.humidityNightMin}
+                                           onChange={this.handleInputChange}/>
+                                </div>
+                                <div className="col">
+                                    <input className="form-control"
+                                           type="number"
+                                           placeholder='max'
+                                           name='humidityNightMax'
+                                           value={this.state.humidityNightMax}
+                                           onChange={this.handleInputChange}/>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                <hr/>
+                </div>
+                <div className='container'>
+                    <div className="row justify-content-center control-display">
+                        <div className="col">
+                            <button onClick={this.saveSettings} className='btn btn-success'>Apply</button>
+                        </div>
+                        <div className="col">
+                            <button onClick={this.settingsManager} className='btn btn-success'>Dashboard</button>
+                        </div>
+                    </div>
+                </div>
+            </div>)
+        } else{
             return(<div className='container'>
                     <div className='row justify-cotent-center'>
                         <ReactLoading type='cylon' color='#ffffff' height='667' width='375'/>

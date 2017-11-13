@@ -36,21 +36,35 @@ else:
     app.config['SECRET_KEY'] = 'lZsY4zEG00QwQzDDKiMrPqsrUcYQhG5Z'
 
 
-status = {'manual': False,
-          'co2': False,
-          'lights': False,
-          'exhaust':  False,
-          'humidity': False}
+
 state = {
     'carbonDioxide': 0,
     'temperature': 0,
     'rh': 0,
-    'ph': 0.0
+    'ph': 0.0,
+    'manual': False,
+    'co2': False,
+    'lights': False,
+    'exhaust':  False,
+    'humidity': False,
+    'flower': False,
+    'veg': False,
+    'sunrise': None,
+    'tempDayMin': 0,
+    'tempDayMax': 0,
+    'tempNightMin': 0,
+    'tempNightMax': 0,
+    'humidityDayMin': 0,
+    'humidityDayMax': 0,
+    'humidityNightMin': 0,
+    'humidityNightMax': 0,
+    'Co2DayMin': 0,
+    'Co2DayMax': 0
 }
+
 
 def monitor():
     global state
-    global status
     state['temperature'] = sensor.read_temperature()
     state['rh'] = sensor.read_humidity()
     return ''
@@ -85,6 +99,7 @@ def logout():
     session.clear()
     return redirect(url_for('login'))
 
+
 @app.route('/signup', methods=['POST'])
 def signup():
     id = request.form['username']
@@ -98,6 +113,7 @@ def signup():
     else:
         return render_template('login.html', error='Incorrect key please register again')
 
+
 @socketio.on('message', namespace='/greenhouse')
 def handle_message(message):
     emit('message', message)
@@ -110,38 +126,30 @@ def handle_connect():
 
 @socketio.on('getCurrentState', namespace='/greenhouse')
 def handel_get_state(message):
-    global status
     global state
-    data = {'temperature': state['temperature'],
-            'carbonDioxide': state['carbonDioxide'],
-            'rh': state['rh'],
-            'ph': state['ph'],
-            'lights': status['lights'],
-            'exhaust': status['exhaust'],
-            'co2': status['co2'],
-            'humidity': status['humidity'],
-            'manual': status['manual']}
-    emit('message', {'purpose': 'State', 'currentState': data})
+    emit('message', {'purpose': 'State', 'currentState': state})
 
 
 @socketio.on('setState', namespace='/greenhouse')
 def handle_set_state(message):
     data = message['data']
+    global state
     for k, value in data.items():
         key = k
-        statusChange = value
-    global status
-    status[key] = statusChange
-    print(status)
+        stateChange = value
+        state[key] = stateChange
 
 
-@socketio.on('start', namespace='/test')
-def handle_start():
+@socketio.on('start', namespace='/greenhouse')
+def handle_start(message):
     global thread
     with thread_lock:
         if thread is None:
             thread = socketio.start_background_task(target=monitor)
-    emit('my_response', {'data': 'Connected', 'count': 0})
+
+        else:
+            thread = None
+            thread = socketio.start_background_task(target=monitor)
 
 
 if __name__ == "__main__":
