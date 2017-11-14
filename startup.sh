@@ -12,10 +12,12 @@
 ### END INIT INFO
 
 export RPi="True"
-export SECRET_KEY="861839F738AE2"
-
+#export SECRET_KEY="Your secret key here"
+mongod --repair
+sleep 2
 mongod --fork --logpath /var/log/mongod.log
-sleep 3
+sleep 1
 python3 /home/pi/greenhouse/websockets.py &
+sleep  3
 echo 'Everything started succesfully'
 echo continue

@@ -50,7 +50,8 @@ export default class WebsocketHandler extends React.Component {
 
     componentDidMount() {
         let self = this;
-        self.ws = openSocket('http://0.0.0.0:8000/greenhouse');
+        const namespace = 'greenhouse';
+        self.ws = openSocket(window.location.href + namespace);
         self.ws.on('message', data => {
             console.log(JSON.stringify(data));
             let result = data.data ? data.data : data;
