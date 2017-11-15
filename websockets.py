@@ -65,7 +65,6 @@ state = null_state.copy()
 
 
 def monitor():
-    global state
     GPIO.setmode(GPIO.BCM)
     lights_pin = 16
     co2_pin = 20
@@ -77,6 +76,7 @@ def monitor():
     GPIO.setup(dehumidifier_pin, GPIO.OUT)
     bme_sensor = BME280(t_mode=BME280_OSAMPLE_8, p_mode=BME280_OSAMPLE_8, h_mode=BME280_OSAMPLE_8)
     while True:
+        global state
         if state['ready']:
             if not state['manual']:
                 state['temperature'] = bme_sensor.read_temperature()
