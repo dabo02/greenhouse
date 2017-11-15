@@ -80,7 +80,7 @@ def monitor():
         if state['ready']:
             if not state['manual']:
                 state['temperature'] = bme_sensor.read_temperature()
-                bme_sensor.read.pressure()
+                bme_sensor.read_pressure()
                 state['rh'] = bme_sensor.read_humidity()
                 if state['veg']:
                     set_time = datetime.strptime(state['sunriseDate'], "%a, %d %b %Y %H:%M:%S %Z")
