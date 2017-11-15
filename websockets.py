@@ -76,8 +76,8 @@ def monitor():
     GPIO.setup(exhaust_pin, GPIO.OUT)
     GPIO.setup(dehumidifier_pin, GPIO.OUT)
     bme_sensor = BME280(t_mode=BME280_OSAMPLE_8, p_mode=BME280_OSAMPLE_8, h_mode=BME280_OSAMPLE_8)
-    if state['ready']:
-        while True:
+    while True:
+        if state['ready']:
             if not state['manual']:
                 state['temperature'] = bme_sensor.read_temperature()
                 bme_sensor.read.pressure()
@@ -132,8 +132,8 @@ def monitor():
                     a = 1
                     # TODO implement 18 hr logic here
                     state['lights'] = True
-    else:
-        socketio.sleep(3)
+        else:
+            socketio.sleep(3)
 
 
 @app.route('/')
