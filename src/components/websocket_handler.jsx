@@ -149,8 +149,8 @@ export default class WebsocketHandler extends React.Component {
             this.state.humidityNightMax && this.state.Co2DayMin && this.state.Co2DayMax) {
 
                 this.setState({ready: true});
+                this.setState({settings: !this.state.settings});
                 this.ws.emit('setState', {data: this.state});
-                this.setState({settings: !this.state.settings})
         }
     };
 
