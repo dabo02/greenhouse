@@ -74,6 +74,11 @@ def monitor():
     GPIO.setup(co2_pin, GPIO.OUT)
     GPIO.setup(exhaust_pin, GPIO.OUT)
     GPIO.setup(dehumidifier_pin, GPIO.OUT)
+    GPIO.output(lights_pin, GPIO.LOW)
+    GPIO.output(co2_pin, GPIO.LOW)
+    GPIO.output(exhaust_pin, GPIO.LOW)
+    GPIO.output(dehumidifier_pin, GPIO.LOW)
+
     bme_sensor = BME280(t_mode=BME280_OSAMPLE_8, p_mode=BME280_OSAMPLE_8, h_mode=BME280_OSAMPLE_8)
     while True:
         global state
@@ -92,7 +97,7 @@ def monitor():
                     if elapsed_seconds > 64800:
                         state['lights'] = False
                         GPIO.output(lights_pin, GPIO.LOW)
-                        if state['rh'] >= state['humidityNightMax']:
+                        if state['rh'] >= float(state['humidityNightMax']):
                             state['exhaust'] = True
                             state['humidity'] = True
                             GPIO.output(exhaust_pin, GPIO.HIGH)
@@ -103,7 +108,7 @@ def monitor():
                             GPIO.output(exhaust_pin, GPIO.LOW)
                             GPIO.output(dehumidifier_pin, GPIO.LOW)
 
-                        if state['temperature'] > state['tempNightMax']:
+                        if state['temperature'] > float(state['tempNightMax']):
                             if state['exhaust'] == False:
                                 state['exhaust'] = True
                                 GPIO.output(exhaust_pin, GPIO.HIGH)
@@ -111,7 +116,7 @@ def monitor():
                         GPIO.output(lights_pin, GPIO.HIGH)
                         state['lights'] = True
 
-                        if state['rh'] >= state['humidityDayMax']:
+                        if state['rh'] >= float(state['humidityDayMax']):
                             state['exhaust'] = True
                             state['humidity'] = True
                             GPIO.output(exhaust_pin, GPIO.HIGH)
@@ -122,7 +127,7 @@ def monitor():
                             GPIO.output(exhaust_pin, GPIO.LOW)
                             GPIO.output(dehumidifier_pin, GPIO.LOW)
 
-                        if state['temperature'] > state['tempDayMax']:
+                        if state['temperature'] > float(state['tempDayMax']):
                             if state['exhaust'] == False:
                                 state['exhaust'] = True
                                 GPIO.output(exhaust_pin, GPIO.HIGH)
