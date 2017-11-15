@@ -3,6 +3,7 @@ from threading import Lock
 from flask import Flask, render_template, session, url_for, request, redirect
 from flask_socketio import SocketIO, send, emit
 from db import DBManager
+from datetime import datetime
 
 '''
 ***************
@@ -25,22 +26,15 @@ secret = None
 if 'RPi' in os.environ:
     from Adafruit_BME280 import *
     import RPi.GPIO as GPIO
-    GPIO.setmode(GPIO.BCM)
-    pinList = [16, 25]
-    for i in pinList:
-        GPIO.setup(i, GPIO.OUT)
-
-    sensor = BME280(t_mode=BME280_OSAMPLE_8, p_mode=BME280_OSAMPLE_8, h_mode=BME280_OSAMPLE_8)
     secret = os.environ['SECRET_KEY']
     app.config['SECRET_KEY'] = secret
-
 else:
     secret = 'lZsY4zEG00QwQzDDKiMrPqsrUcYQhG5Z'
     app.config['SECRET_KEY'] = secret
 
 
 
-state = {
+null_state = {
     'carbonDioxide': 0,
     'temperature': 0,
     'rh': 0,
@@ -53,6 +47,7 @@ state = {
     'flower': False,
     'veg': False,
     'sunrise': None,
+    'sunriseDate': None,
     'tempDayMin': 0,
     'tempDayMax': 0,
     'tempNightMin': 0,
@@ -62,27 +57,83 @@ state = {
     'humidityNightMin': 0,
     'humidityNightMax': 0,
     'Co2DayMin': 0,
-    'Co2DayMax': 0
+    'Co2DayMax': 0,
+    'ready': False
 }
+
+state = null_state.copy()
 
 
 def monitor():
     global state
-    while True:
-        # TODO Monitor logic goes here
-        if not state['manual']:
-            if state['veg']:
-                state['lights'] = True
-                #TODO implement socketio.emit() to setState here
-                # TODO implement 18 hr logic here
-            elif state['flower']:
-                a = 1
-                state['lights'] = True
+    GPIO.setmode(GPIO.BCM)
+    lights_pin = 16
+    co2_pin = 20
+    exhaust_pin = 21
+    dehumidifier_pin = 25
+    GPIO.setup(lights_pin, GPIO.OUT)
+    GPIO.setup(co2_pin, GPIO.OUT)
+    GPIO.setup(exhaust_pin, GPIO.OUT)
+    GPIO.setup(dehumidifier_pin, GPIO.OUT)
+    bme_sensor = BME280(t_mode=BME280_OSAMPLE_8, p_mode=BME280_OSAMPLE_8, h_mode=BME280_OSAMPLE_8)
+    if state['ready']:
+        while True:
+            if not state['manual']:
+                state['temperature'] = bme_sensor.read_temperature()
+                bme_sensor.read.pressure()
+                state['rh'] = bme_sensor.read_humidity()
+                if state['veg']:
+                    set_time = datetime.strptime(state['sunriseDate'], "%a, %d %b %Y %H:%M:%S %Z")
+                    current_time = datetime.now()
+                    elapsed_time = current_time - set_time
+                    elapsed_seconds = elapsed_time.seconds
+                    if elapsed_time.days < 0:
+                        socketio.emit('message', {'purpose': 'setDay', 'current': elapsed_time.days}, namespace='/greenhouse')
+                    if elapsed_seconds > 64800:
+                        state['lights'] = False
+                        GPIO.output(lights_pin, GPIO.LOW)
+                        if state['rh'] >= state['humidityNightMax']:
+                            state['exhaust'] = True
+                            state['humidity'] = True
+                            GPIO.output(exhaust_pin, GPIO.HIGH)
+                            GPIO.output(dehumidifier_pin, GPIO.HIGH)
+                        else:
+                            state['exhaust'] = False
+                            state['humidity'] = False
+                            GPIO.output(exhaust_pin, GPIO.LOW)
+                            GPIO.output(dehumidifier_pin, GPIO.LOW)
 
+                        if state['temperature'] > state['tempNightMax']:
+                            if state['exhaust'] == False:
+                                state['exhaust'] = True
+                                GPIO.output(exhaust_pin, GPIO.HIGH)
+                    else:
+                        GPIO.output(lights_pin, GPIO.HIGH)
+                        state['lights'] = True
 
-        # state['temperature'] = sensor.read_temperature()
-        # state['rh'] = sensor.read_humidity()
-        return ''
+                        if state['rh'] >= state['humidityDayMax']:
+                            state['exhaust'] = True
+                            state['humidity'] = True
+                            GPIO.output(exhaust_pin, GPIO.HIGH)
+                            GPIO.output(dehumidifier_pin, GPIO.HIGH)
+                        else:
+                            state['exhaust'] = False
+                            state['humidity'] = False
+                            GPIO.output(exhaust_pin, GPIO.LOW)
+                            GPIO.output(dehumidifier_pin, GPIO.LOW)
+
+                        if state['temperature'] > state['tempDayMax']:
+                            if state['exhaust'] == False:
+                                state['exhaust'] = True
+                                GPIO.output(exhaust_pin, GPIO.HIGH)
+
+                    socketio.emit('message', {'purpose': 'State', 'currentState': state}, namespace='/greenhouse')
+                elif state['flower']:
+                    a = 1
+                    # TODO implement 18 hr logic here
+                    state['lights'] = True
+    else:
+        socketio.sleep(3)
 
 
 @app.route('/')
@@ -111,6 +162,9 @@ def login():
 
 @app.route('/logout')
 def logout():
+    global state
+    global null_state
+    state = null_state.copy()
     session.clear()
     return redirect(url_for('login'))
 

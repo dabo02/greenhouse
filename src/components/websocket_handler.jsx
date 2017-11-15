@@ -24,6 +24,7 @@ export default class WebsocketHandler extends React.Component {
             flower: false,
             veg: false,
             sunrise: null,
+            sunriseDate: null,
             tempDayMin: 0,
             tempDayMax: 0,
             tempNightMin: 0,
@@ -33,7 +34,8 @@ export default class WebsocketHandler extends React.Component {
             humidityNightMin: 0,
             humidityNightMax: 0,
             Co2DayMin: 0,
-            Co2DayMax: 0
+            Co2DayMax: 0,
+            ready: false
         };
         this.lightController = this.lightController.bind(this);
         this.exhaustController = this.exhaustController.bind(this);
@@ -52,6 +54,7 @@ export default class WebsocketHandler extends React.Component {
         let self = this;
         const namespace = 'greenhouse';
         self.ws = openSocket(window.location.href + namespace);
+        // self.ws = openSocket('0.0.0.0:8000/' + namespace);
         self.ws.on('message', data => {
             console.log(JSON.stringify(data));
             let result = data.data ? data.data : data;
@@ -123,26 +126,49 @@ export default class WebsocketHandler extends React.Component {
         const target = event.target;
         const value =  target.value;
         const name = target.name;
-
+        if (name === 'sunrise'){
+            const date = new Date();
+            const hr = parseInt(value.substr(0, 2), 10);
+            const min = parseInt(value.substr(3, 2), 10);
+            const sec = 0;
+            date.setHours(hr);
+            date.setMinutes(min);
+            date.setSeconds(sec);
+            date.toUTCString();
+            this.setState({sunriseDate: date});
+        }
         this.setState({
             [name]: value
         });
     }
 
     saveSettings(event) {
-        this.ws.emit('setState', {data: this.state});
-        this.setState({settings: !this.state.settings})
+        if (this.state.sunriseDate && (this.state.veg || this.state.flower) && this.state.sunrise &&
+            this.state.tempDayMin && this.state.tempNightMin  && this.state.tempDayMin && this.state.tempDayMax
+            && this.state.humidityDayMin && this.state.humidityDayMax && this.state.humidityNightMin &&
+            this.state.humidityNightMax && this.state.Co2DayMin && this.state.Co2DayMax) {
 
+                this.setState({ready: true});
+                this.ws.emit('setState', {data: this.state});
+                this.setState({settings: !this.state.settings})
+        }
     };
 
-    showMessage(msg, type) {
-
+    showMessage(msg, type, classType) {
+        return(
+            <div class={classType} role="alert">
+                <strong>{type}</strong> {msg}
+            </div>
+        )
     }
 
     render() {
         if (this.state.connected && !this.state.settings) {
             return (
                 <div>
+                    <div className={this.state.ready ? 'hidden' : 'container'}>
+                        {this.showMessage('Settings have not been applied', 'Error', 'alert alert-danger')}
+                    </div>
                     <div className='container'>
                         <div className='row temperature-data'>
                             <div className='col'>
@@ -183,7 +209,7 @@ export default class WebsocketHandler extends React.Component {
                             </div>
                             <div className='col'>
                                 <ToggleSwitch
-                                    disabled = {this.state.manual}
+                                    disabled = {!this.state.manual}
                                     checked={this.state.lights}
                                     onChange={this.lightController}
                                 />
@@ -200,7 +226,7 @@ export default class WebsocketHandler extends React.Component {
                             </div>
                             <div className='col'>
                                 <ToggleSwitch
-                                    disabled = {this.state.manual}
+                                    disabled = {!this.state.manual}
                                     checked={this.state.exhaust}
                                     onChange={this.exhaustController}
                                 />
@@ -217,7 +243,7 @@ export default class WebsocketHandler extends React.Component {
                             </div>
                             <div className='col'>
                                 <ToggleSwitch
-                                    disabled = {this.state.manual}
+                                    disabled = {!this.state.manual}
                                     checked={this.state.co2}
                                     onChange={this.co2Controller}
                                 />
@@ -234,7 +260,7 @@ export default class WebsocketHandler extends React.Component {
                             </div>
                             <div className='col'>
                                 <ToggleSwitch
-                                    disabled = {this.state.manual}
+                                    disabled = {!this.state.manual}
                                     checked={this.state.humidity}
                                     onChange={this.humidityController}
                                 />
@@ -275,6 +301,9 @@ export default class WebsocketHandler extends React.Component {
         } else if(this.state.settings){
             return(
             <div>
+                <div className={this.state.ready ? 'hidden' : 'container'}>
+                    {this.showMessage('Settings not yet saved', 'Warning', 'alert alert-warning')}
+                </div>
                 <div className='container'>
                     <form>
                         <div className={this.state.flower  !== this.state.veg ? 'container' : 'hidden'}>
