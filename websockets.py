@@ -14,7 +14,7 @@ template_dir = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 template_dir = os.path.join(template_dir, 'greenhouse/build')
 static_dir = os.path.join(template_dir, 'static')
 app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
-socketio = SocketIO(app)
+socketio = SocketIO(app, async_mode=None)
 thread = None
 thread_lock = Lock()
 users = DBManager('localhost', 27017)
@@ -133,6 +133,7 @@ def monitor():
                                 GPIO.output(exhaust_pin, GPIO.HIGH)
 
                     socketio.emit('message', {'purpose': 'State', 'currentState': state}, namespace='/greenhouse')
+                    socketio.sleep(3)
                 elif state['flower']:
                     a = 1
                     # TODO implement 18 hr logic here
