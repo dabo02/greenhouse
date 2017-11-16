@@ -1,7 +1,7 @@
 import os
 from threading import Lock
 from flask import Flask, render_template, session, url_for, request, redirect
-from flask_socketio import SocketIO, send, emit
+from flask_socketio import SocketIO, emit
 from db import DBManager
 from datetime import datetime
 
@@ -84,16 +84,16 @@ def monitor():
         global state
         if state['ready']:
             if not state['manual']:
-                state['temperature'] = bme_sensor.read_temperature()
+                state['temperature'] = round(((bme_sensor.read_temperature()*1.8) + 32), 2)
                 bme_sensor.read_pressure()
-                state['rh'] = bme_sensor.read_humidity()
+                state['rh'] = round(bme_sensor.read_humidity(), 2)
                 if state['veg']:
                     set_time = datetime.strptime(state['sunriseDate'], "%a, %d %b %Y %H:%M:%S %Z")
                     current_time = datetime.now()
                     elapsed_time = current_time - set_time
                     elapsed_seconds = elapsed_time.seconds
                     if elapsed_time.days < 0:
-                        socketio.emit('message', {'purpose': 'setDay', 'current': elapsed_time.days}, namespace='/greenhouse')
+                        socketio.emit('message', {'purpose': 'setDay', 'current': set_time.day}, namespace='/greenhouse')
                     if elapsed_seconds > 64800:
                         state['lights'] = False
                         GPIO.output(lights_pin, GPIO.LOW)
@@ -136,7 +136,7 @@ def monitor():
                     socketio.sleep(3)
                 elif state['flower']:
                     a = 1
-                    # TODO implement 18 hr logic here
+                    # TODO implement 12 hr logic here
                     state['lights'] = True
         else:
             socketio.sleep(3)

@@ -74,6 +74,14 @@ export default class WebsocketHandler extends React.Component {
                     this.setState(currentState);
                     break;
 
+                case 'setDay':
+                    const temp_date = Date.parse(this.state.sunriseDate);
+                    temp_date.setDate(temp_date.getDate() + 1);
+                    this.setState({sunriseDate: temp_date}, () => {
+                        this.ws.emit('setState', {data: this.state})
+                    });
+                    break;
+
                 default:
                     this.setState({connected: false})
             }
