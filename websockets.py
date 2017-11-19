@@ -96,7 +96,7 @@ def monitor():
                 bme_sensor.read_pressure()
                 state['rh'] = round(bme_sensor.read_humidity(), 1)
                 state['ph'] = round(interpolate(adc.read_adc(ph_channel, gain=GAIN), 0, 32768, 0, 14), 1)
-                state['carbonDioxide'] = round(interpolate(adc.read_adc(co2_channel, gain=GAIN), 0, 32768, 400, 10000), 1)
+                state['carbonDioxide'] = round(interpolate(adc.read_adc(co2_channel, gain=GAIN), 0, 32768, 10000, 400), 1)
                 state
                 if state['veg']:
                     set_time = datetime.strptime(state['sunriseDate'], "%a, %d %b %Y %H:%M:%S %Z")
