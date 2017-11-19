@@ -25,6 +25,7 @@ secret = None
 
 if 'RPi' in os.environ:
     from Adafruit_BME280 import *
+    import Adafruit_ADS1x15
     import RPi.GPIO as GPIO
     secret = os.environ['SECRET_KEY']
     app.config['SECRET_KEY'] = secret
@@ -64,6 +65,10 @@ null_state = {
 state = null_state.copy()
 
 
+def interpolate(val, analogMin, analogMax, realMin, realMax):
+    return (float((val - analogMin))*float((realMax - realMin))/float(analogMax - analogMin) + float(realMin))
+
+
 def monitor():
     GPIO.setmode(GPIO.BCM)
     lights_pin = 16
@@ -78,20 +83,27 @@ def monitor():
     GPIO.output(co2_pin, GPIO.LOW)
     GPIO.output(exhaust_pin, GPIO.LOW)
     GPIO.output(dehumidifier_pin, GPIO.LOW)
-
+    GAIN = 1
+    ph_channel = 0
+    co2_channel = 1
     bme_sensor = BME280(t_mode=BME280_OSAMPLE_8, p_mode=BME280_OSAMPLE_8, h_mode=BME280_OSAMPLE_8)
+    adc = Adafruit_ADS1x15.ADS1115()
     while True:
         global state
         if state['ready']:
             if not state['manual']:
-                state['temperature'] = round(((bme_sensor.read_temperature()*1.8) + 32), 2)
+                state['temperature'] = round(((bme_sensor.read_temperature()*1.8) + 32), 1)
                 bme_sensor.read_pressure()
-                state['rh'] = round(bme_sensor.read_humidity(), 2)
+                state['rh'] = round(bme_sensor.read_humidity(), 1)
+                state['ph'] = round(interpolate(adc.read_adc(ph_channel, gain=GAIN), 0, 32768, 0, 14), 1)
+                state['carbonDioxide'] = round(interpolate(adc.read_adc(co2_channel, gain=GAIN), 0, 32768, 400, 10000), 1)
+                state
                 if state['veg']:
                     set_time = datetime.strptime(state['sunriseDate'], "%a, %d %b %Y %H:%M:%S %Z")
                     current_time = datetime.now()
                     elapsed_time = current_time - set_time
                     elapsed_seconds = elapsed_time.seconds
+
                     if elapsed_time.days < 0:
                         socketio.emit('message', {'purpose': 'setDay', 'current': set_time.day}, namespace='/greenhouse')
                     if elapsed_seconds > 64800:
@@ -112,6 +124,7 @@ def monitor():
                             if state['exhaust'] == False:
                                 state['exhaust'] = True
                                 GPIO.output(exhaust_pin, GPIO.HIGH)
+
                     else:
                         GPIO.output(lights_pin, GPIO.HIGH)
                         state['lights'] = True
