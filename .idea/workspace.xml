@@ -86,8 +86,8 @@
       <file leaf-file-name="websockets.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/websockets.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="97" column="105" lean-forward="false" selection-start-line="97" selection-start-column="105" selection-end-line="97" selection-end-column="105" />
+            <state relative-caret-position="1044">
+              <caret line="148" column="37" lean-forward="true" selection-start-line="148" selection-start-column="37" selection-end-line="148" selection-end-column="37" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -496,7 +496,7 @@
       <workItem from="1510761890728" duration="751000" />
       <workItem from="1510783867038" duration="18000" />
       <workItem from="1510869903503" duration="3746000" />
-      <workItem from="1511116620380" duration="1948000" />
+      <workItem from="1511116620380" duration="1996000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1510294819080</created>
@@ -701,11 +701,18 @@
       <option name="project" value="LOCAL" />
       <updated>1510871104409</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="added co2 and ph to state">
+      <created>1511119389676</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1511119389676</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="159094000" />
+    <option name="totallyTimeSpent" value="159142000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-4" width="1857" height="1092" extended-state="6" />
@@ -799,7 +806,8 @@
     <MESSAGE value="added float conversion" />
     <MESSAGE value="fixed peg" />
     <MESSAGE value="implemented Celsius to Fahrenheit Conversion, Added setDate method" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented Celsius to Fahrenheit Conversion, Added setDate method" />
+    <MESSAGE value="added co2 and ph to state" />
+    <option name="LAST_COMMIT_MESSAGE" value="added co2 and ph to state" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1164,8 +1172,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/websockets.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="97" column="105" lean-forward="false" selection-start-line="97" selection-start-column="105" selection-end-line="97" selection-end-column="105" />
+        <state relative-caret-position="1044">
+          <caret line="148" column="37" lean-forward="true" selection-start-line="148" selection-start-column="37" selection-end-line="148" selection-end-column="37" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

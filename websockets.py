@@ -146,7 +146,7 @@ def monitor():
                                 GPIO.output(exhaust_pin, GPIO.HIGH)
 
                     socketio.emit('message', {'purpose': 'State', 'currentState': state}, namespace='/greenhouse')
-                    socketio.sleep(3)
+                    socketio.sleep(5)
                 elif state['flower']:
                     a = 1
                     # TODO implement 12 hr logic here
