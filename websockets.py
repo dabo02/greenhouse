@@ -93,12 +93,15 @@ def monitor():
         global state
         if state['ready']:
             if not state['manual']:
-                state['temperature'] = round(((bme_sensor.read_temperature()*1.8) + 32), 1)
-                bme_sensor.read_pressure()
-                state['rh'] = round(bme_sensor.read_humidity(), 1)
-                state['ph'] = round(interpolate(adc.read_adc(ph_channel, gain=PH_GAIN), 0, 65535, 0, 14), 1)
-                state['carbonDioxide'] = round(interpolate(adc.read_adc(co2_channel, gain=CO2_GAIN), 0, 65535, 10000, 400), 1)
-                state
+                try:
+                    state['temperature'] = round(((bme_sensor.read_temperature()*1.8) + 32), 1)
+                    bme_sensor.read_pressure()
+                    state['rh'] = round(bme_sensor.read_humidity(), 1)
+                    state['ph'] = round(interpolate(adc.read_adc(ph_channel, gain=PH_GAIN), 0, 65535, 0, 14), 1)
+                    state['carbonDioxide'] = round(interpolate(adc.read_adc(co2_channel, gain=CO2_GAIN), 0, 65535, 10000, 400), 1)
+                except:
+                    continue
+
                 if state['veg']:
                     set_time = datetime.strptime(state['sunriseDate'], "%a, %d %b %Y %H:%M:%S %Z")
                     current_time = datetime.now()
