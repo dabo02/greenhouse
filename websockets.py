@@ -84,7 +84,7 @@ def monitor():
     GPIO.output(exhaust_pin, GPIO.LOW)
     GPIO.output(dehumidifier_pin, GPIO.LOW)
     PH_GAIN = 2
-    CO2_GAIN = 2
+    CO2_GAIN = 1
     ph_channel = 0
     co2_channel = 1
     bme_sensor = BME280(t_mode=BME280_OSAMPLE_8, p_mode=BME280_OSAMPLE_8, h_mode=BME280_OSAMPLE_8)
