@@ -83,7 +83,8 @@ def monitor():
     GPIO.output(co2_pin, GPIO.LOW)
     GPIO.output(exhaust_pin, GPIO.LOW)
     GPIO.output(dehumidifier_pin, GPIO.LOW)
-    GAIN = 1
+    PH_GAIN = 2
+    CO2_GAIN = 2
     ph_channel = 0
     co2_channel = 1
     bme_sensor = BME280(t_mode=BME280_OSAMPLE_8, p_mode=BME280_OSAMPLE_8, h_mode=BME280_OSAMPLE_8)
@@ -95,8 +96,8 @@ def monitor():
                 state['temperature'] = round(((bme_sensor.read_temperature()*1.8) + 32), 1)
                 bme_sensor.read_pressure()
                 state['rh'] = round(bme_sensor.read_humidity(), 1)
-                state['ph'] = round(interpolate(adc.read_adc(ph_channel, gain=GAIN), 0, 65535, 0, 14), 1)
-                state['carbonDioxide'] = round(interpolate(adc.read_adc(co2_channel, gain=GAIN), 0, 65535, 10000, 400), 1)
+                state['ph'] = round(interpolate(adc.read_adc(ph_channel, gain=PH_GAIN), 0, 65535, 0, 14), 1)
+                state['carbonDioxide'] = round(interpolate(adc.read_adc(co2_channel, gain=CO2_GAIN), 0, 65535, 10000, 400), 1)
                 state
                 if state['veg']:
                     set_time = datetime.strptime(state['sunriseDate'], "%a, %d %b %Y %H:%M:%S %Z")
