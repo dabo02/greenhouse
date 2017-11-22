@@ -83,7 +83,7 @@ def monitor():
     GPIO.output(co2_pin, GPIO.LOW)
     GPIO.output(exhaust_pin, GPIO.LOW)
     GPIO.output(dehumidifier_pin, GPIO.LOW)
-    PH_GAIN = 2
+    PH_GAIN = 1
     CO2_GAIN = 1
     ph_channel = 0
     co2_channel = 1
@@ -98,7 +98,8 @@ def monitor():
                     bme_sensor.read_pressure()
                     state['rh'] = round(bme_sensor.read_humidity(), 1)
                     state['ph'] = round(interpolate(adc.read_adc(ph_channel, gain=PH_GAIN), 0, 65535, 0, 14), 1)
-                    state['carbonDioxide'] = round(interpolate(adc.read_adc(co2_channel, gain=CO2_GAIN), 0, 65535, 10000, 400), 1)
+                    pre_co2_value = adc.read_adc(co2_channel, gain=CO2_GAIN)
+                    state['carbonDioxide'] = round(((pre_co2_value - 35500)/-6.83)-1226.42)
                 except:
                     continue
 
