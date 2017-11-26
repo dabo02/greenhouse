@@ -22,8 +22,8 @@
       <file leaf-file-name="websockets.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/websockets.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="540">
-              <caret line="99" column="112" lean-forward="true" selection-start-line="99" selection-start-column="112" selection-end-line="99" selection-end-column="112" />
+            <state relative-caret-position="1414">
+              <caret line="103" column="19" lean-forward="true" selection-start-line="103" selection-start-column="19" selection-end-line="103" selection-end-column="19" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -141,6 +141,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -162,35 +165,6 @@
             <path>
               <item name="greenhouse" type="b2602c69:ProjectViewProjectNode" />
               <item name="greenhouse" type="462c0819:PsiDirectoryNode" />
-              <item name="build" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="greenhouse" type="b2602c69:ProjectViewProjectNode" />
-              <item name="greenhouse" type="462c0819:PsiDirectoryNode" />
-              <item name="build" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="greenhouse" type="b2602c69:ProjectViewProjectNode" />
-              <item name="greenhouse" type="462c0819:PsiDirectoryNode" />
-              <item name="build" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="main.eae836e1.js" type="620a8d5e:NestingTreeNode" />
-            </path>
-            <path>
-              <item name="greenhouse" type="b2602c69:ProjectViewProjectNode" />
-              <item name="greenhouse" type="462c0819:PsiDirectoryNode" />
-              <item name="build" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="media" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="greenhouse" type="b2602c69:ProjectViewProjectNode" />
-              <item name="greenhouse" type="462c0819:PsiDirectoryNode" />
               <item name="public" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -202,10 +176,7 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="PackagesPane" />
-      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -403,7 +374,9 @@
       <workItem from="1510783867038" duration="18000" />
       <workItem from="1510869903503" duration="3746000" />
       <workItem from="1511116620380" duration="2680000" />
-      <workItem from="1511120762995" duration="6483000" />
+      <workItem from="1511120762995" duration="6502000" />
+      <workItem from="1511583936626" duration="865000" />
+      <workItem from="1511663710247" duration="9896000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1510294819080</created>
@@ -657,14 +630,21 @@
       <option name="project" value="LOCAL" />
       <updated>1511142000382</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="fixed co2 gain">
+      <created>1511311882612</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1511311882612</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="166309000" />
+    <option name="totallyTimeSpent" value="177089000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="64" y="-4" width="1857" height="1092" extended-state="6" />
+    <frame x="64" y="-4" width="1857" height="1085" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -818,9 +798,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
           <caret line="14" column="17" lean-forward="false" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#41#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -828,9 +805,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1926">
           <caret line="107" column="24" lean-forward="false" selection-start-line="107" selection-start-column="24" selection-end-line="107" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#26#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1051,9 +1025,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="7" lean-forward="false" selection-start-line="0" selection-start-column="7" selection-end-line="0" selection-end-column="7" />
-          <folding>
-            <element signature="e#0#41#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1061,9 +1032,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1458">
           <caret line="84" column="24" lean-forward="false" selection-start-line="84" selection-start-column="24" selection-end-line="84" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#26#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1071,7 +1039,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
           <caret line="12" column="84" lean-forward="false" selection-start-line="12" selection-start-column="84" selection-end-line="12" selection-end-column="84" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1079,7 +1046,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="1279" lean-forward="false" selection-start-line="0" selection-start-column="1279" selection-end-line="0" selection-end-column="1279" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1087,7 +1053,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="6" column="3" lean-forward="false" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1095,7 +1060,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5040">
           <caret line="280" column="10" lean-forward="false" selection-start-line="280" selection-start-column="9" selection-end-line="280" selection-end-column="10" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1103,7 +1067,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1119,7 +1082,6 @@
       <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
       <provider selected="true" editor-type-id="LogFileEditorProvider">
@@ -1130,8 +1092,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/websockets.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="99" column="112" lean-forward="true" selection-start-line="99" selection-start-column="112" selection-end-line="99" selection-end-column="112" />
+        <state relative-caret-position="1414">
+          <caret line="103" column="19" lean-forward="true" selection-start-line="103" selection-start-column="19" selection-end-line="103" selection-end-column="19" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
