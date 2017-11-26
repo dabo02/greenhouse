@@ -202,7 +202,7 @@ def monitor():
                             if GPIO.input(exhaust_pin):
                                 GPIO.output(exhaust_pin, GPIO.LOW)
 
-                        if state['rh'] > round(float(state['humidityDaytMax']), 1):
+                        if state['rh'] > round(float(state['humidityDayMax']), 1):
                             state['humidity'] = True
                             if not GPIO.input(exhaust_pin):
                                 if not state['carbonDioxide'] < round(float(state['Co2DayMax']), 1) or state['temperature'] > float(state['tempDayMax']):
@@ -215,7 +215,7 @@ def monitor():
                             if GPIO.input(dehumidifier_pin):
                                 GPIO.output(dehumidifier_pin, GPIO.LOW)
                             if GPIO.input(exhaust_pin):
-                                GPIO.output(exhaust_pin, GPIO.LOW)
+                                GPIO.output(exhaust_pin, GPIO.LOW)git
 
                 socketio.emit('message', {'purpose': 'State', 'currentState': state}, namespace='/greenhouse')
                 socketio.sleep(5)
