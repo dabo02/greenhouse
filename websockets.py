@@ -194,7 +194,7 @@ def monitor():
                         if not GPIO.input(lights_pin):
                             GPIO.output(lights_pin, GPIO.HIGH)
 
-                        if state['carbonDioxide'] < round(float(state['co2DayMax']), 1):
+                        if state['carbonDioxide'] < round(float(state['Co2DayMax']), 1):
                             state['co2'] = True
                             state['exhaust'] = False
                             if not GPIO.input(co2_pin):
@@ -205,7 +205,7 @@ def monitor():
                         if state['rh'] > round(float(state['humidityDaytMax']), 1):
                             state['humidity'] = True
                             if not GPIO.input(exhaust_pin):
-                                if not state['carbonDioxide'] < round(float(state['co2DayMax']), 1) or state['temperature'] > float(state['tempDayMax']):
+                                if not state['carbonDioxide'] < round(float(state['Co2DayMax']), 1) or state['temperature'] > float(state['tempDayMax']):
                                     state['exhaust'] = True
                                     GPIO.output(exhaust_pin. GPIO.HIGH)
                             if not GPIO.input(dehumidifier_pin):
