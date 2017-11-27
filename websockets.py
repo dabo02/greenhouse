@@ -215,7 +215,7 @@ def monitor():
                             if GPIO.input(dehumidifier_pin):
                                 GPIO.output(dehumidifier_pin, GPIO.LOW)
                             if GPIO.input(exhaust_pin):
-                                GPIO.output(exhaust_pin, GPIO.LOW)git
+                                GPIO.output(exhaust_pin, GPIO.LOW)
 
                 socketio.emit('message', {'purpose': 'State', 'currentState': state}, namespace='/greenhouse')
                 socketio.sleep(5)
