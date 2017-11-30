@@ -92,17 +92,17 @@ def monitor():
     while True:
         global state
         if state['ready']:
-            if not state['manual']:
-                try:
-                    state['temperature'] = round(((bme_sensor.read_temperature()*1.8) + 32), 1)
-                    bme_sensor.read_pressure()
-                    state['rh'] = round(bme_sensor.read_humidity(), 1)
-                    state['ph'] = round(interpolate(adc.read_adc(ph_channel, gain=PH_GAIN), 0, 65535, 0, 14), 1)
-                    pre_co2_value = adc.read_adc(co2_channel, gain=CO2_GAIN)
-                    state['carbonDioxide'] = round(((pre_co2_value - 35500)/-6.83)-1226.42)
-                except:
-                    continue
+            try:
+                state['temperature'] = round(((bme_sensor.read_temperature()*1.8) + 32), 1)
+                bme_sensor.read_pressure()
+                state['rh'] = round(bme_sensor.read_humidity(), 1)
+                state['ph'] = round(interpolate(adc.read_adc(ph_channel, gain=PH_GAIN), 0, 65535, 0, 14), 1)
+                pre_co2_value = adc.read_adc(co2_channel, gain=CO2_GAIN)
+                state['carbonDioxide'] = round(((pre_co2_value - 35500)/-6.83)-1226.42)
+            except:
+                continue
 
+            if not state['manual']:
                 if state['veg']:  # only for veg state
                     set_time = datetime.strptime(state['sunriseDate'], "%a, %d %b %Y %H:%M:%S %Z")  # get time in UTC
                     current_time = datetime.now()
@@ -217,8 +217,8 @@ def monitor():
                             if GPIO.input(exhaust_pin):
                                 GPIO.output(exhaust_pin, GPIO.LOW)
 
-                socketio.emit('message', {'purpose': 'State', 'currentState': state}, namespace='/greenhouse')
-                socketio.sleep(5)
+            socketio.emit('message', {'purpose': 'State', 'currentState': state}, namespace='/greenhouse')
+            socketio.sleep(5)
         else:
             socketio.sleep(3)
 
