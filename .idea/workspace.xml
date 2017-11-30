@@ -22,8 +22,8 @@
       <file leaf-file-name="websockets.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/websockets.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="71">
-              <caret line="70" column="0" lean-forward="true" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+            <state relative-caret-position="209">
+              <caret line="228" column="44" lean-forward="false" selection-start-line="228" selection-start-column="44" selection-end-line="228" selection-end-column="44" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -57,6 +57,7 @@
       <find>start</find>
       <find>ready</find>
       <find>bme</find>
+      <find>GPIO.input</find>
     </findStrings>
     <replaceStrings>
       <replace>send</replace>
@@ -71,6 +72,8 @@
       <replace>this.saveSettings</replace>
       <replace>#bme</replace>
       <replace>items</replace>
+      <replace>set_pin_state</replace>
+      <replace>get_pin_state</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -378,7 +381,7 @@
       <workItem from="1511583936626" duration="865000" />
       <workItem from="1511663710247" duration="11287000" />
       <workItem from="1511739966704" duration="3125000" />
-      <workItem from="1512005863372" duration="404000" />
+      <workItem from="1512005863372" duration="1292000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1510294819080</created>
@@ -674,11 +677,18 @@
       <option name="project" value="LOCAL" />
       <updated>1511742574530</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="moved loop to another tab">
+      <created>1512006282994</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1512006282994</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="182009000" />
+    <option name="totallyTimeSpent" value="182897000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="75" y="78" width="1855" height="1056" extended-state="0" />
@@ -752,7 +762,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="implemented logout and added startup script" />
     <MESSAGE value="implemented settings page. optimized server data loading and sending" />
     <MESSAGE value="built the files for production use" />
     <MESSAGE value="fixxed popper js error on build" />
@@ -777,7 +786,8 @@
     <MESSAGE value="fixed key error on co2" />
     <MESSAGE value="fixed key error on humidity" />
     <MESSAGE value="fixed syntax error" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed syntax error" />
+    <MESSAGE value="moved loop to another tab" />
+    <option name="LAST_COMMIT_MESSAGE" value="moved loop to another tab" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1129,8 +1139,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/websockets.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="71">
-          <caret line="70" column="0" lean-forward="true" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+        <state relative-caret-position="209">
+          <caret line="228" column="44" lean-forward="false" selection-start-line="228" selection-start-column="44" selection-end-line="228" selection-end-column="44" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

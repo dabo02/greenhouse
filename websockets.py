@@ -68,6 +68,18 @@ state = null_state.copy()
 def interpolate(val, analogMin, analogMax, realMin, realMax):
     return (float((val - analogMin))*float((realMax - realMin))/float(analogMax - analogMin) + float(realMin))
 
+def set_pin_state(pin, state):
+    if state == 1:
+        GPIO.output(pin, 0)
+    else:
+        GPIO.output(pin, 1)
+
+def get_pin_state(pin):
+    state = GPIO.input(pin)
+    if state:
+        return False
+    else:
+        return True
 
 def monitor():
     GPIO.setmode(GPIO.BCM)
@@ -79,10 +91,10 @@ def monitor():
     GPIO.setup(co2_pin, GPIO.OUT)
     GPIO.setup(exhaust_pin, GPIO.OUT)
     GPIO.setup(dehumidifier_pin, GPIO.OUT)
-    GPIO.output(lights_pin, GPIO.LOW)
-    GPIO.output(co2_pin, GPIO.LOW)
-    GPIO.output(exhaust_pin, GPIO.LOW)
-    GPIO.output(dehumidifier_pin, GPIO.LOW)
+    set_pin_state(lights_pin, GPIO.LOW)
+    set_pin_state(co2_pin, GPIO.LOW)
+    set_pin_state(exhaust_pin, GPIO.LOW)
+    set_pin_state(dehumidifier_pin, GPIO.LOW)
     PH_GAIN = 1
     CO2_GAIN = 1
     ph_channel = 0
@@ -115,51 +127,51 @@ def monitor():
                         socketio.sleep(1)
                     if elapsed_seconds > 64800: # 64800 secs = 18 hours
                         state['lights'] = False
-                        if GPIO.input(lights_pin):
-                            GPIO.output(lights_pin, GPIO.LOW)
+                        if get_pin_state(lights_pin):
+                            set_pin_state(lights_pin, GPIO.LOW)
                         if state['rh'] >= round(float(state['humidityNightMax']), 1):
                             state['exhaust'] = True
                             state['humidity'] = True
-                            if not GPIO.input(exhaust_pin):
-                                GPIO.output(exhaust_pin, GPIO.HIGH)
-                            if not GPIO.input(dehumidifier_pin):
-                                GPIO.output(dehumidifier_pin, GPIO.HIGH)
+                            if not get_pin_state(exhaust_pin):
+                                set_pin_state(exhaust_pin, GPIO.HIGH)
+                            if not get_pin_state(dehumidifier_pin):
+                                set_pin_state(dehumidifier_pin, GPIO.HIGH)
                         else:
                             state['exhaust'] = False
                             state['humidity'] = False
-                            if GPIO.input(exhaust_pin):
-                                GPIO.output(exhaust_pin, GPIO.LOW)
-                            if GPIO.input(dehumidifier_pin):
-                                GPIO.output(dehumidifier_pin, GPIO.LOW)
+                            if get_pin_state(exhaust_pin):
+                                set_pin_state(exhaust_pin, GPIO.LOW)
+                            if get_pin_state(dehumidifier_pin):
+                                set_pin_state(dehumidifier_pin, GPIO.LOW)
 
                         if state['temperature'] > round(float(state['tempNightMax']), 1):
                             if state['exhaust'] == False:
                                 state['exhaust'] = True
-                                if not GPIO.input(exhaust_pin):
-                                    GPIO.output(exhaust_pin, GPIO.HIGH)
+                                if not get_pin_state(exhaust_pin):
+                                    set_pin_state(exhaust_pin, GPIO.HIGH)
 
                     else:
                         state['lights'] = True
-                        if not GPIO.input(lights_pin):
-                            GPIO.output(lights_pin, GPIO.HIGH)
+                        if not get_pin_state(lights_pin):
+                            set_pin_state(lights_pin, GPIO.HIGH)
 
                         if state['rh'] >= float(state['humidityDayMax']):
                             state['exhaust'] = True
                             state['humidity'] = True
-                            if not GPIO.input(exhaust_pin):
-                                GPIO.output(exhaust_pin, GPIO.HIGH)
-                            if not GPIO.input(dehumidifier_pin):
-                                GPIO.output(dehumidifier_pin, GPIO.HIGH)
+                            if not get_pin_state(exhaust_pin):
+                                set_pin_state(exhaust_pin, GPIO.HIGH)
+                            if not get_pin_state(dehumidifier_pin):
+                                set_pin_state(dehumidifier_pin, GPIO.HIGH)
                         else:
                             state['exhaust'] = False
                             state['humidity'] = False
-                            GPIO.output(exhaust_pin, GPIO.LOW)
-                            GPIO.output(dehumidifier_pin, GPIO.LOW)
+                            set_pin_state(exhaust_pin, GPIO.LOW)
+                            set_pin_state(dehumidifier_pin, GPIO.LOW)
 
                         if state['temperature'] > float(state['tempDayMax']):
                             if state['exhaust'] == False:
                                 state['exhaust'] = True
-                                GPIO.output(exhaust_pin, GPIO.HIGH)
+                                set_pin_state(exhaust_pin, GPIO.HIGH)
 
                 elif state['flower']:
                     set_time = datetime.strptime(state['sunriseDate'], "%a, %d %b %Y %H:%M:%S %Z")  # get time in UTC
@@ -173,49 +185,49 @@ def monitor():
                         socketio.sleep(1)
                     if elapsed_seconds > 43200:
                         state['lights'] = False
-                        if GPIO.input(lights_pin):
-                            GPIO.output(lights_pin, GPIO.LOW)
+                        if get_pin_state(lights_pin):
+                            set_pin_state(lights_pin, GPIO.LOW)
                         if state['rh'] > round(float(state['humidityNightMax']), 1):
                             state['exhaust'] = True
                             state['humidity'] = True
-                            if not GPIO.input(exhaust_pin):
-                                GPIO.output(exhaust_pin. GPIO.HIGH)
-                            if not GPIO.input(dehumidifier_pin):
-                                GPIO.output(dehumidifier_pin. GPIO.HIGH)
+                            if not get_pin_state(exhaust_pin):
+                                set_pin_state(exhaust_pin. GPIO.HIGH)
+                            if not get_pin_state(dehumidifier_pin):
+                                set_pin_state(dehumidifier_pin. GPIO.HIGH)
                         else:
                             state['humidity'] = False
-                            if GPIO.input(dehumidifier_pin):
-                                GPIO.output(dehumidifier_pin, GPIO.LOW)
-                            if GPIO.input(exhaust_pin):
-                                GPIO.output(exhaust_pin, GPIO.LOW)
+                            if get_pin_state(dehumidifier_pin):
+                                set_pin_state(dehumidifier_pin, GPIO.LOW)
+                            if get_pin_state(exhaust_pin):
+                                set_pin_state(exhaust_pin, GPIO.LOW)
 
                     else:
                         state['lights'] = True
-                        if not GPIO.input(lights_pin):
-                            GPIO.output(lights_pin, GPIO.HIGH)
+                        if not get_pin_state(lights_pin):
+                            set_pin_state(lights_pin, GPIO.HIGH)
 
                         if state['carbonDioxide'] < round(float(state['Co2DayMax']), 1):
                             state['co2'] = True
                             state['exhaust'] = False
-                            if not GPIO.input(co2_pin):
-                                GPIO.output(co2_pin, GPIO.HIGH)
-                            if GPIO.input(exhaust_pin):
-                                GPIO.output(exhaust_pin, GPIO.LOW)
+                            if not get_pin_state(co2_pin):
+                                set_pin_state(co2_pin, GPIO.HIGH)
+                            if get_pin_state(exhaust_pin):
+                                set_pin_state(exhaust_pin, GPIO.LOW)
 
                         if state['rh'] > round(float(state['humidityDayMax']), 1):
                             state['humidity'] = True
-                            if not GPIO.input(exhaust_pin):
+                            if not get_pin_state(exhaust_pin):
                                 if not state['carbonDioxide'] < round(float(state['Co2DayMax']), 1) or state['temperature'] > float(state['tempDayMax']):
                                     state['exhaust'] = True
-                                    GPIO.output(exhaust_pin, GPIO.HIGH)
-                            if not GPIO.input(dehumidifier_pin):
-                                GPIO.output(dehumidifier_pin, GPIO.HIGH)
+                                    set_pin_state(exhaust_pin, GPIO.HIGH)
+                            if not get_pin_state(dehumidifier_pin):
+                                set_pin_state(dehumidifier_pin, GPIO.HIGH)
                         else:
                             state['humidity'] = False
-                            if GPIO.input(dehumidifier_pin):
-                                GPIO.output(dehumidifier_pin, GPIO.LOW)
-                            if GPIO.input(exhaust_pin):
-                                GPIO.output(exhaust_pin, GPIO.LOW)
+                            if get_pin_state(dehumidifier_pin):
+                                set_pin_state(dehumidifier_pin, GPIO.LOW)
+                            if get_pin_state(exhaust_pin):
+                                set_pin_state(exhaust_pin, GPIO.LOW)
 
             socketio.emit('message', {'purpose': 'State', 'currentState': state}, namespace='/greenhouse')
             socketio.sleep(5)
