@@ -229,6 +229,39 @@ def monitor():
                             if get_pin_state(exhaust_pin):
                                 set_pin_state(exhaust_pin, GPIO.LOW)
 
+            else:
+                exhaust_state = get_pin_state(exhaust_pin)
+                dehum_state = get_pin_state(exhaust_pin)
+                Co2_state = get_pin_state(exhaust_pin)
+                lights_state = get_pin_state(exhaust_pin)
+                if state['exhaust'] == exhaust_state:
+                    if exhaust_state == True:
+                        exhaust_state = 1
+                    else:
+                        exhaust_state = 0
+                    set_pin_state(exhaust_pin, exhaust_state)
+
+                if state['co2'] == Co2_state:
+                    if Co2_state == True:
+                        Co2_state = 1
+                    else:
+                        Co2_state = 0
+                    set_pin_state(co2_pin, Co2_state)
+
+                if state['humidity'] == dehum_state:
+                    if dehum_state == True:
+                        dehum_state = 1
+                    else:
+                        dehum_state = 0
+                    set_pin_state(dehumidifier_pin, dehum_state)
+
+                if state['lights'] == lights_state:
+                    if lights_state == True:
+                        lights_state = 1
+                    else:
+                        lights_state = 0
+                    set_pin_state(lights_pin, lights_state)
+
             socketio.emit('message', {'purpose': 'State', 'currentState': state}, namespace='/greenhouse')
             socketio.sleep(5)
         else:
@@ -310,14 +343,15 @@ def handle_set_state(message):
 
 @socketio.on('start', namespace='/greenhouse')
 def handle_start(message):
-    global thread
-    with thread_lock:
-        if thread is None:
-            thread = socketio.start_background_task(target=monitor)
+    if not state['ready']:
+        global thread
+        with thread_lock:
+            if thread is None:
+                thread = socketio.start_background_task(target=monitor)
 
-        else:
-            thread = None
-            thread = socketio.start_background_task(target=monitor)
+            else:
+                thread = None
+                thread = socketio.start_background_task(target=monitor)
 
 
 if __name__ == "__main__":
