@@ -69,7 +69,7 @@ def interpolate(val, analogMin, analogMax, realMin, realMax):
     return (float((val - analogMin))*float((realMax - realMin))/float(analogMax - analogMin) + float(realMin))
 
 def set_pin_state(pin, state):
-    if state == 1:
+    if state:
         GPIO.output(pin, 0)
     else:
         GPIO.output(pin, 1)
@@ -104,7 +104,7 @@ def monitor():
     adc = Adafruit_ADS1x15.ADS1115()
     while True:
         global state
-        if state['ready']:
+        if state['ready'] or state['manual']:
             try:
                 state['temperature'] = round(((bme_sensor.read_temperature()*1.8) + 32), 1)
                 bme_sensor.read_pressure()
@@ -233,23 +233,23 @@ def monitor():
             else:
                 exhaust_state = get_pin_state(exhaust_pin)
                 socketio.sleep(0.5)
-                dehum_state = get_pin_state(exhaust_pin)
+                dehum_state = get_pin_state(dehumidifier_pin)
                 socketio.sleep(0.5)
-                Co2_state = get_pin_state(exhaust_pin)
+                Co2_state = get_pin_state(co2_pin)
                 socketio.sleep(0.5)
-                lights_state = get_pin_state(exhaust_pin)
+                lights_state = get_pin_state(lights_pin)
                 socketio.sleep(0.5)
 
-                if state['exhaust'] == exhaust_state:
+                if state['exhaust'] != exhaust_state:
                     set_pin_state(exhaust_pin, exhaust_state)
 
-                if state['co2'] == Co2_state:
+                if state['co2'] != Co2_state:
                     set_pin_state(co2_pin, Co2_state)
 
-                if state['humidity'] == dehum_state:
+                if state['humidity'] != dehum_state:
                     set_pin_state(dehumidifier_pin, dehum_state)
 
-                if state['lights'] == lights_state:
+                if state['lights'] != lights_state:
                     set_pin_state(lights_pin, lights_state)
 
             socketio.emit('message', {'purpose': 'State', 'currentState': state}, namespace='/greenhouse')
