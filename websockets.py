@@ -233,24 +233,36 @@ def monitor():
 
             else:
                 exhaust_state = get_pin_state(exhaust_pin)
-                socketio.sleep(0.5)
                 dehum_state = get_pin_state(dehumidifier_pin)
-                socketio.sleep(0.5)
                 Co2_state = get_pin_state(co2_pin)
-                socketio.sleep(0.5)
                 lights_state = get_pin_state(lights_pin)
-                socketio.sleep(0.5)
 
                 if state['exhaust'] != exhaust_state:
+                    if exhaust_state:
+                        exhaust_state == 1
+                    else:
+                        exhaust_state == 0
                     set_pin_state(exhaust_pin, exhaust_state)
 
                 if state['co2'] != Co2_state:
+                    if Co2_state:
+                        Co2_state == 1
+                    else:
+                        Co2_state == 0
                     set_pin_state(co2_pin, Co2_state)
 
                 if state['humidity'] != dehum_state:
+                    if dehum_state:
+                        dehum_state == 1
+                    else:
+                        dehum_state == 0
                     set_pin_state(dehumidifier_pin, dehum_state)
 
                 if state['lights'] != lights_state:
+                    if lights_state:
+                        lights_state == 1
+                    else:
+                        lights_state == 0
                     set_pin_state(lights_pin, lights_state)
 
             socketio.emit('message', {'purpose': 'State', 'currentState': state}, namespace='/greenhouse')
