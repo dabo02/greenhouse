@@ -84,6 +84,7 @@ def get_pin_state(pin):
 
 def monitor():
     GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)
     lights_pin = 16
     co2_pin = 20
     exhaust_pin = 21
