@@ -75,7 +75,11 @@ def set_pin_state(pin, state):
         GPIO.output(pin, 1)
 
 def get_pin_state(pin):
-    return GPIO.input(pin)
+    state = GPIO.input(pin)
+    if state == 1:
+        return False
+    else:
+        return True
 
 
 def monitor():
@@ -228,9 +232,14 @@ def monitor():
 
             else:
                 exhaust_state = get_pin_state(exhaust_pin)
+                socketio.sleep(0.5)
                 dehum_state = get_pin_state(exhaust_pin)
+                socketio.sleep(0.5)
                 Co2_state = get_pin_state(exhaust_pin)
+                socketio.sleep(0.5)
                 lights_state = get_pin_state(exhaust_pin)
+                socketio.sleep(0.5)
+
                 if state['exhaust'] == exhaust_state:
                     set_pin_state(exhaust_pin, exhaust_state)
 
