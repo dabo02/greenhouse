@@ -266,7 +266,7 @@ def monitor():
                     set_pin_state(lights_pin, lights_state)
 
             socketio.emit('message', {'purpose': 'State', 'currentState': state}, namespace='/greenhouse')
-            socketio.sleep(5)
+            socketio.sleep(1)
         else:
             socketio.sleep(3)
 
