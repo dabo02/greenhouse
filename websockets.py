@@ -69,7 +69,7 @@ def interpolate(val, analogMin, analogMax, realMin, realMax):
     return (float((val - analogMin))*float((realMax - realMin))/float(analogMax - analogMin) + float(realMin))
 
 def set_pin_state(pin, state):
-    if state:
+    if state == 1:
         GPIO.output(pin, 0)
     else:
         GPIO.output(pin, 1)
@@ -239,30 +239,30 @@ def monitor():
 
                 if state['exhaust'] != exhaust_state:
                     if exhaust_state:
-                        exhaust_state == 1
+                        exhaust_state = 0
                     else:
-                        exhaust_state == 0
+                        exhaust_state = 1
                     set_pin_state(exhaust_pin, exhaust_state)
 
                 if state['co2'] != Co2_state:
                     if Co2_state:
-                        Co2_state == 1
+                        Co2_state = 0
                     else:
-                        Co2_state == 0
+                        Co2_state = 1
                     set_pin_state(co2_pin, Co2_state)
 
                 if state['humidity'] != dehum_state:
                     if dehum_state:
-                        dehum_state == 1
+                        dehum_state = 0
                     else:
-                        dehum_state == 0
+                        dehum_state = 1
                     set_pin_state(dehumidifier_pin, dehum_state)
 
                 if state['lights'] != lights_state:
                     if lights_state:
-                        lights_state == 1
+                        lights_state = 0
                     else:
-                        lights_state == 0
+                        lights_state = 1
                     set_pin_state(lights_pin, lights_state)
 
             socketio.emit('message', {'purpose': 'State', 'currentState': state}, namespace='/greenhouse')
