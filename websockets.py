@@ -47,7 +47,7 @@ null_state = {
     'humidity': False,
     'flower': False,
     'veg': False,
-    'sunrise': None,
+    'sunrise': '',
     'sunriseDate': None,
     'tempDayMin': 0,
     'tempDayMax': 0,

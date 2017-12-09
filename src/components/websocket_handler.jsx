@@ -7,8 +7,6 @@ export default class WebsocketHandler extends React.Component {
 
     constructor(props) {
         super(props);
-        this.ReceivedStarted = false;
-        this.started = false;
         this.state = {
             temperature: 0,
             carbonDioxide: 0,
@@ -23,7 +21,7 @@ export default class WebsocketHandler extends React.Component {
             settings: false,
             flower: false,
             veg: false,
-            sunrise: null,
+            sunrise: '',
             sunriseDate: null,
             tempDayMin: 0,
             tempDayMax: 0,
@@ -115,7 +113,7 @@ export default class WebsocketHandler extends React.Component {
     }
 
     settingsManager(event){
-        this.setState({settings: !this.state.settings})
+        this.setState({settings: !this.state.settings, ready: false})
     }
 
     handleCheckBoxChange(event) {
@@ -139,10 +137,11 @@ export default class WebsocketHandler extends React.Component {
             const hr = parseInt(value.substr(0, 2), 10);
             const min = parseInt(value.substr(3, 2), 10);
             const sec = 0;
-            date.setHours(hr);
+            date.setHours(hr - 6);
             date.setMinutes(min);
             date.setSeconds(sec);
             const stringDate = date.toUTCString();
+            console.log(stringDate);
             this.setState({sunriseDate: stringDate});
         }
         this.setState({
@@ -167,7 +166,7 @@ export default class WebsocketHandler extends React.Component {
 
     showMessage(msg, type, classType) {
         return(
-            <div class={classType} role="alert">
+            <div className={classType} role="alert">
                 <strong>{type}</strong> {msg}
             </div>
         )
