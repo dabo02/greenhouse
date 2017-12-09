@@ -112,7 +112,7 @@ def monitor():
                 state['temperature'] = round(((bme_sensor.read_temperature()*1.8) + 32), 1)
                 bme_sensor.read_pressure()
                 state['rh'] = round(bme_sensor.read_humidity(), 1)
-                state['ph'] = round(interpolate(adc.read_adc(ph_channel, gain=PH_GAIN) + 32768, 0, 65535, 0, 14), 1)
+                state['ph'] = round(interpolate(adc.read_adc(ph_channel, gain=PH_GAIN), -32768, 32767, 0, 14), 1)
                 pre_co2_value = adc.read_adc(co2_channel, gain=CO2_GAIN)
                 state['carbonDioxide'] = round(((pre_co2_value - 35500)/-6.83)-1226.42)
             except:

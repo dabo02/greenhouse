@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d33d9ddb-c51a-4222-823f-d3c9f25a8e4c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/websockets.py" afterPath="$PROJECT_DIR$/websockets.py" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,8 +22,8 @@
       <file leaf-file-name="websockets.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/websockets.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
-              <caret line="362" column="61" lean-forward="false" selection-start-line="362" selection-start-column="61" selection-end-line="362" selection-end-column="61" />
+            <state relative-caret-position="280">
+              <caret line="114" column="101" lean-forward="false" selection-start-line="114" selection-start-column="101" selection-end-line="114" selection-end-column="101" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -484,14 +485,7 @@
       <workItem from="1512005863372" duration="5006000" />
       <workItem from="1512083050987" duration="1541000" />
       <workItem from="1512672089878" duration="12892000" />
-      <workItem from="1512797978009" duration="8125000" />
-    </task>
-    <task id="LOCAL-00007" summary="change register service worker">
-      <created>1510468027167</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1510468027167</updated>
+      <workItem from="1512797978009" duration="8417000" />
     </task>
     <task id="LOCAL-00008" summary="implemented logout and added startup script">
       <created>1510475627472</created>
@@ -829,14 +823,22 @@
       <option name="project" value="LOCAL" />
       <updated>1512851442978</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="added debug variable for production">
+      <created>1512851663254</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1512851663254</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="209169000" />
+    <option name="totallyTimeSpent" value="209461000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="74" y="50" width="1857" height="1092" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -857,7 +859,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36129034" sideWeight="0.49143174" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36129034" sideWeight="0.49143174" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1290,8 +1292,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/websockets.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="362" column="61" lean-forward="false" selection-start-line="362" selection-start-column="61" selection-end-line="362" selection-end-column="61" />
+        <state relative-caret-position="280">
+          <caret line="114" column="101" lean-forward="false" selection-start-line="114" selection-start-column="101" selection-end-line="114" selection-end-column="101" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
