@@ -23,7 +23,7 @@
         <entry file="file://$PROJECT_DIR$/websockets.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="280">
-              <caret line="114" column="101" lean-forward="false" selection-start-line="114" selection-start-column="101" selection-end-line="114" selection-end-column="101" />
+              <caret line="114" column="119" lean-forward="false" selection-start-line="114" selection-start-column="119" selection-end-line="114" selection-end-column="119" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -485,14 +485,7 @@
       <workItem from="1512005863372" duration="5006000" />
       <workItem from="1512083050987" duration="1541000" />
       <workItem from="1512672089878" duration="12892000" />
-      <workItem from="1512797978009" duration="8417000" />
-    </task>
-    <task id="LOCAL-00008" summary="implemented logout and added startup script">
-      <created>1510475627472</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1510475627472</updated>
+      <workItem from="1512797978009" duration="9142000" />
     </task>
     <task id="LOCAL-00009" summary="implemented logout and added startup script">
       <created>1510476081602</created>
@@ -830,11 +823,18 @@
       <option name="project" value="LOCAL" />
       <updated>1512851663254</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="added debug variable for production">
+      <created>1512851956228</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1512851956228</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="209461000" />
+    <option name="totallyTimeSpent" value="210186000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="74" y="50" width="1857" height="1092" extended-state="6" />
@@ -1293,7 +1293,7 @@
     <entry file="file://$PROJECT_DIR$/websockets.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
-          <caret line="114" column="101" lean-forward="false" selection-start-line="114" selection-start-column="101" selection-end-line="114" selection-end-column="101" />
+          <caret line="114" column="119" lean-forward="false" selection-start-line="114" selection-start-column="119" selection-end-line="114" selection-end-column="119" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
