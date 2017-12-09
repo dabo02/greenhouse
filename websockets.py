@@ -22,16 +22,18 @@ users.set_db('greenhouse')
 users.set_collection('users')
 
 secret = None
-
+debug = None
 if 'RPi' in os.environ:
     from Adafruit_BME280 import *
     import Adafruit_ADS1x15
     import RPi.GPIO as GPIO
     secret = os.environ['SECRET_KEY']
     app.config['SECRET_KEY'] = secret
+    debug = False
 else:
     secret = 'lZsY4zEG00QwQzDDKiMrPqsrUcYQhG5Z'
     app.config['SECRET_KEY'] = secret
+    debug = True
 
 
 
@@ -358,4 +360,4 @@ def handle_start(message):
 
 
 if __name__ == "__main__":
-    socketio.run(app, host='0.0.0.0', port=8000, debug=True)
+    socketio.run(app, host='0.0.0.0', port=8000, debug=debug)
