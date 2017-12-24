@@ -113,7 +113,9 @@ export default class WebsocketHandler extends React.Component {
     }
 
     settingsManager(event){
-        this.setState({settings: !this.state.settings, ready: false})
+        this.setState({settings: !this.state.settings, ready: false}, () => {
+            this.ws.emit('setState', {data: {ready: false}});
+        })
     }
 
     handleCheckBoxChange(event) {
@@ -242,7 +244,7 @@ export default class WebsocketHandler extends React.Component {
                                 />
                             </div>
                             <div className='col'>
-                                <i className="fa fa-cog fa-spin" aria-hidden="true"/>
+                                <i className="fa fa-cog" aria-hidden="true"/>
                             </div>
                         </div>
                     </div>

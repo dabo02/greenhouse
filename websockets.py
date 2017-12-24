@@ -109,7 +109,7 @@ def monitor():
         global state
         if state['ready'] or state['manual']:
             try:
-                state['temperature'] = round(((bme_sensor.read_temperature()*1.8) + 32), 1)
+                state['temperature'] = round(((bme_sensor.read_temperature()*1.8) + 32), 0)
                 bme_sensor.read_pressure()
                 state['rh'] = round(bme_sensor.read_humidity(), 1)
                 state['ph'] = round(interpolate(adc.read_adc(ph_channel, gain=PH_GAIN), -32768, 32767, 0, 14), 1) - 5.5
@@ -123,7 +123,7 @@ def monitor():
                     set_time = datetime.strptime(state['sunriseDate'], "%a, %d %b %Y %H:%M:%S %Z")  # get time in UTC
                     current_time = datetime.now()
                     elapsed_time = current_time - set_time  # get elapsed time
-                    elapsed_seconds = elapsed_time.seconds  # get elapsed seconds
+                    elapsed_seconds = elapsed_time.total_seconds()  # get elapsed seconds
 
                     if elapsed_time.days < 0:
                         # inform the client that a day has passed and new time should be set
@@ -181,7 +181,7 @@ def monitor():
                     set_time = datetime.strptime(state['sunriseDate'], "%a, %d %b %Y %H:%M:%S %Z")  # get time in UTC
                     current_time = datetime.now()
                     elapsed_time = current_time - set_time  # get elapsed time
-                    elapsed_seconds = elapsed_time.seconds  # get elapsed seconds
+                    elapsed_seconds = elapsed_time.total_seconds()  # get elapsed seconds
 
                     if elapsed_time.days < 0:
                         # inform the client that a day has passed and new time should be set
