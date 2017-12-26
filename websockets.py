@@ -70,11 +70,13 @@ state = null_state.copy()
 def interpolate(val, analogMin, analogMax, realMin, realMax):
     return (float((val - analogMin))*float((realMax - realMin))/float(analogMax - analogMin) + float(realMin))
 
+
 def set_pin_state(pin, state):
     if state == 1:
         GPIO.output(pin, 0)
     else:
         GPIO.output(pin, 1)
+
 
 def get_pin_state(pin):
     state = GPIO.input(pin)
